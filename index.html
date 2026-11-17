@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>RigorisAI · AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels</title>
+<meta name="description" content="RigorisAI builds AI-for-Science tools, protocols, and expert-validated data flywheels. Products: Lean-Nexus and ProReview.">
+<meta property="og:title" content="RigorisAI">
+<meta property="og:description" content="Building AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='26' text-anchor='middle' font-family='Georgia,serif' font-size='30' fill='%23592A2E'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#592A2E; --ink:#1C1C1D; --text:#333234; --muted:#545052; --faint:#6F696A;
+  --bg:#FDFCFB; --bg2:#F3F2F1; --line:#CBC6C6; --soft:#F8F1F1;
+  --display:'Newsreader',Georgia,serif; --serif:'Source Serif 4',Georgia,serif;
+  --sans:'IBM Plex Sans',Arial,sans-serif; --mono:'JetBrains Mono','Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg2);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--accent)}
+b,strong{font-weight:600}
+.wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 32px}
+.mark{flex:none}
+.wm i{font-style:normal;color:var(--accent)}
+.s-foot .sf{font-family:var(--display);letter-spacing:0;font-size:1.35cqw;color:var(--ink)}
+
+/* ---------- header / tabs ---------- */
+header.top{position:sticky;top:0;z-index:20;background:rgba(253,252,251,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font-family:var(--display);font-size:25px;line-height:1}
+.tabs{display:flex;gap:4px;height:100%}
+.tabs a{display:flex;align-items:center;gap:10px;padding:0 20px;height:100%;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a .n{color:var(--line);font-weight:500}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tabs a[aria-selected="true"] .n{color:var(--accent)}
+main{flex:1}
+.panel{display:none;animation:in .35s ease both}
+.panel.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+
+/* ---------- tab 1: deck ---------- */
+.deck-wrap{padding-top:36px;padding-bottom:56px}
+.deck-head{max-width:calc((100vh - 230px) * 16 / 9);min-width:min(100%,760px);margin-left:auto;margin-right:auto;display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}
+.kicker{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.deck-head .hint{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.06em}
+.stage{position:relative;max-width:calc((100vh - 230px) * 16 / 9);min-width:min(100%,760px);margin:0 auto;container-type:inline-size;aspect-ratio:16/9;background:var(--bg);border:1px solid var(--line);box-shadow:0 30px 60px -40px rgba(28,28,29,.35);overflow:hidden;touch-action:pan-y}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:8.4cqw 6.6cqw 5.6cqw;background:var(--bg);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s .45s}
+.slide.on{opacity:1;visibility:visible;transition:opacity .45s ease}
+.slide.tone{background:var(--bg2)}
+/* slide typography in container units */
+.s-bar{position:absolute;top:2.7cqw;left:6.6cqw;right:6.6cqw;display:flex;justify-content:space-between;align-items:center;padding-bottom:.95cqw;border-bottom:1px solid var(--line)}
+.s-bar .lg{display:flex;align-items:center;gap:.7cqw;font-family:var(--display);font-size:1.55cqw;color:var(--ink)}
+.s-bar .lg svg{width:1.8cqw;height:1.8cqw}
+.s-bar .tag{font-family:var(--serif);font-style:italic;font-weight:600;font-size:1.3cqw;color:var(--accent)}
+.s-foot{position:absolute;bottom:2.5cqw;left:6.6cqw;right:6.6cqw;display:flex;justify-content:space-between;font-family:var(--mono);font-size:1.05cqw;letter-spacing:.2em;color:var(--faint)}
+.slide h2{font-family:var(--serif);font-weight:600;font-size:3.15cqw;line-height:1.12;letter-spacing:-.01em;color:var(--ink)}
+.slide h2 span{color:var(--accent)}
+.slide .sub{font-size:1.45cqw;color:var(--muted);margin-top:.8cqw}
+.slide .sub b{color:var(--ink)}
+.sbody{display:flex;flex-direction:column;gap:2cqw;margin-top:2.4cqw;flex:1}
+.cells{display:grid;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.cells.c2{grid-template-columns:1fr 1fr}.cells.c3{grid-template-columns:repeat(3,1fr)}
+.cells>div{padding:1.9cqw 2.1cqw;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:.6cqw}
+.cn{font-family:var(--mono);font-weight:600;font-size:1.1cqw;color:var(--accent)}
+.slide h3{font-family:var(--serif);font-weight:600;font-size:1.95cqw;line-height:1.2;color:var(--ink)}
+.slide p.t{font-size:1.38cqw;line-height:1.45;color:var(--muted)}
+.slide p.t b{color:var(--ink)}
+.slide p.big{font-family:var(--serif);font-size:1.75cqw;line-height:1.35;color:var(--ink)}
+.call{display:flex;background:var(--bg2);border:1px solid var(--line)}
+.call::before{content:"";width:.42cqw;background:var(--accent);flex:none}
+.call p{padding:1.4cqw 2.2cqw;font-family:var(--serif);font-size:1.7cqw;line-height:1.35;color:var(--ink)}
+.call p b{color:var(--accent)}
+.call.sm p{font-style:italic;font-size:1.45cqw}
+.call.dark{background:var(--accent);border-color:var(--accent)}.call.dark::before{display:none}
+.call.dark p{color:#F3F2F1}.call.dark p b{color:#fff}
+.pull{display:flex;gap:1.8cqw}
+.pull::before{content:"";width:.32cqw;background:var(--accent);flex:none}
+.pull p{font-family:var(--display);font-style:italic;font-weight:300;font-size:2.35cqw;line-height:1.22;color:var(--ink)}
+.pull p span{color:var(--accent)}
+.strong{font-family:var(--serif);font-weight:700;font-size:1.65cqw;color:var(--accent)}
+/* cover */
+.slide.hero{padding:0}
+.slide.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-top{position:absolute;top:3.6cqw;left:6.6cqw;right:6.6cqw;display:flex;justify-content:space-between;align-items:center}
+.hero-top .lg{display:flex;gap:.85cqw;align-items:center;font-family:var(--display);font-size:2.1cqw;color:var(--ink)}
+.hero-top .lg svg{width:2.3cqw;height:2.3cqw}
+.hero-top .url{font-family:var(--mono);font-size:1.15cqw;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.hero h1{position:absolute;left:6.6cqw;top:15.5cqw;width:78cqw;font-family:var(--display);font-weight:300;font-size:6.35cqw;line-height:1.03;letter-spacing:-.025em;color:var(--ink)}
+.hero h1 i{color:var(--accent)}
+.hero-bot{position:absolute;left:6.6cqw;right:6.6cqw;bottom:4cqw;padding-top:1.5cqw;border-top:1px solid var(--line);display:flex;align-items:end;gap:3.6cqw}
+.hero-bot .who{font-family:var(--display);font-size:2.5cqw;line-height:1;color:var(--ink)}
+.hero-bot .hrole{font-size:1.45cqw;color:var(--muted)}
+.hero.thanks h1{top:20cqw;font-size:8.2cqw}
+/* timeline */
+.tl{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.tl .st{display:flex;flex-direction:column;gap:.8cqw;padding-right:1.4cqw}
+.tl .d{font-family:var(--mono);font-weight:600;font-size:1.1cqw;color:var(--accent);letter-spacing:.05em}
+.tl .rail{display:flex;align-items:center;margin-right:-1.4cqw}
+.tl .dot{width:2.6cqw;height:2.6cqw;border-radius:50%;background:var(--accent);flex:none;display:grid;place-items:center}
+.tl .dot svg{width:1.3cqw;height:1.3cqw;stroke:#F3F2F1;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tl .ln{flex:1;height:2px;background:var(--accent)}
+.tl .st:nth-child(4) .ln{background:none;border-top:2px dashed var(--accent)}
+.tl .st:last-child .dot{background:var(--bg);border:2px dashed var(--accent)}
+.tl .st:last-child .dot svg{stroke:var(--accent)}
+.tl img,.tl .ph{width:100%;aspect-ratio:1.85;object-fit:cover;border:1px solid var(--line);background:var(--bg2)}
+.tl .ph{border:1px dashed var(--accent);background:var(--soft);display:grid;place-items:center}
+.tl .ph svg{width:55%;height:auto}
+.tl h3{font-size:1.6cqw}
+.tl p.t{font-size:1.15cqw}
+/* business table */
+.rev{border-top:2px solid var(--ink)}
+.rev>div{display:grid;grid-template-columns:28cqw 1fr;border-bottom:1px solid var(--line)}
+.rev>div>div{padding:1.05cqw 1.4cqw 1.05cqw 0}
+.rev>div>div+div{background:var(--bg2);padding-left:1.6cqw}
+.rev .who{font-family:var(--serif);font-weight:600;font-size:1.6cqw;line-height:1.2;color:var(--ink)}
+.rev .buys{font-style:italic;font-size:1.2cqw;color:var(--accent)}
+.rev p{font-size:1.25cqw;line-height:1.45;color:var(--text)}
+.rev p.m{color:var(--muted)}
+.lab{font-family:var(--mono);font-weight:600;font-size:1.05cqw;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.gtm{display:flex;gap:1.2cqw;align-items:stretch}
+.gtm>div{flex:1;padding:1.2cqw 1.5cqw;border:1px solid var(--line);font-family:var(--serif);font-weight:600;font-size:1.55cqw;line-height:1.2;color:var(--ink);display:flex;flex-direction:column;gap:.3cqw}
+.gtm>div:nth-of-type(2){background:var(--soft);border-color:var(--accent)}
+.gtm>div:nth-of-type(3){background:var(--accent);border-color:var(--accent);color:#FBF7F6}
+.gtm>div:nth-of-type(3) .cn{color:#E9D9DA}
+.gtm>span{align-self:center;color:var(--accent);font-family:var(--mono);font-size:1.6cqw}
+/* team slide */
+.person{font-family:var(--serif);font-weight:600;font-size:2cqw;line-height:1.15;color:var(--ink)}
+.role{font-family:var(--mono);font-size:1.05cqw;color:var(--accent)}
+.adv>div{background:var(--bg2)}
+.adv>div:last-child{background:var(--bg);justify-content:center}
+.adv>div:last-child p{font-family:var(--serif);font-style:italic;font-size:1.45cqw;color:var(--text)}
+
+/* deck controls */
+.ctrl{max-width:calc((100vh - 230px) * 16 / 9);min-width:min(100%,760px);margin-left:auto;margin-right:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px}
+.ctrl button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--line);background:var(--bg);font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.ctrl button:hover{border-color:var(--accent);color:var(--accent)}
+.ctrl button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ctrl button[disabled]{opacity:.35;pointer-events:none}
+.dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.dots button{width:30px;height:4px;padding:0;border:none;background:var(--line)}
+.dots button.on{background:var(--accent)}
+.count{font-family:var(--mono);font-size:12px;color:var(--faint);min-width:58px;text-align:center}
+
+/* mobile: deck reflows, one slide at a time */
+@container (max-width:720px){
+  .slide{position:relative;inset:auto;display:none;padding:64px 22px 56px}
+  .slide.on{display:flex}
+  .s-bar{top:16px;left:22px;right:22px;padding-bottom:10px}.s-bar .tag{display:none}
+  .s-bar .lg{font-size:17px;gap:8px}.s-bar .lg svg{width:20px;height:20px}
+  .s-foot{bottom:18px;left:22px;right:22px;font-size:11px}
+  .slide h2{font-size:26px}.slide .sub{font-size:15px}
+  .sbody{gap:16px;margin-top:20px}
+  .cells.c2,.cells.c3{grid-template-columns:1fr}
+  .cells>div{padding:16px 18px;gap:6px}
+  .cn,.lab,.role,.tl .d{font-size:11px}
+  .slide h3,.tl h3,.person{font-size:19px}
+  .slide p.t,.tl p.t,.rev p{font-size:14.5px}
+  .slide p.big,.call p{font-size:17px}.call p{padding:14px 18px}.call::before{width:4px}
+  .call.sm p{font-size:15px}.pull p{font-size:21px}.pull{gap:14px}.pull::before{width:3px}
+  .strong{font-size:16px}
+  .slide.hero{min-height:520px}
+  .hero-top{top:22px;left:22px;right:22px}.hero-top .lg{font-size:19px;gap:8px}.hero-top .lg svg{width:22px;height:22px}.hero-top .url{display:none}
+  .hero h1{position:relative;left:auto;top:auto;width:auto;font-size:40px;margin:110px 22px 0}
+  .hero.thanks h1{font-size:52px;margin-top:150px}
+  .hero-bot{left:22px;right:22px;bottom:24px;flex-wrap:wrap;gap:6px 16px;padding-top:14px}
+  .hero-bot .who{font-size:22px}.hero-bot .hrole{font-size:14px}
+  .tl{grid-template-columns:1fr;gap:22px}
+  .tl .rail{display:none}.tl .st{padding:0}
+  .rev>div{grid-template-columns:1fr}.rev>div>div{padding:12px 0}.rev>div>div+div{padding:12px 14px}
+  .rev .who{font-size:18px}.rev .buys{font-size:14px}
+  .gtm{flex-direction:column}.gtm>div{font-size:17px;padding:14px 16px}.gtm>span{transform:rotate(90deg);font-size:18px}
+  .adv>div:last-child p{font-size:16px}
+}
+
+/* ---------- tab 2: products ---------- */
+.p-intro{padding-top:64px;padding-bottom:36px}
+.p-intro h1,.t-intro h1{font-family:var(--display);font-weight:300;font-size:clamp(38px,5vw,64px);line-height:1.05;letter-spacing:-.02em;color:var(--ink);margin:14px 0 18px;max-width:900px}
+.p-intro h1 i,.t-intro h1 i{color:var(--accent)}
+.p-intro p.lede,.t-intro p.lede{font-size:19px;color:var(--muted);max-width:760px}
+.p-intro p.lede b,.t-intro p.lede b{color:var(--ink)}
+.jump{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.prods{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;padding-bottom:72px}
+.prod{display:flex;flex-direction:column;padding:32px;background:var(--bg);border:1px solid var(--line);border-top:3px solid var(--accent)}
+.prod-head{display:flex;flex-direction:column;gap:18px;margin-bottom:24px}
+.prod-name{display:flex;align-items:center;gap:16px}
+.prod-name svg{width:46px;height:46px}
+.prod-name h2{font-family:var(--display);font-weight:400;font-size:clamp(36px,4vw,52px);line-height:1;color:var(--ink)}
+.prod-tag{font-family:var(--serif);font-style:italic;font-weight:600;font-size:20px;color:var(--accent);margin-top:8px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--accent);transition:filter .15s}
+.btn.primary{background:var(--accent);color:#FBF7F6}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:hover{filter:brightness(1.15)}
+.prod-grid{display:flex;flex-direction:column;gap:26px;flex:1}
+.video{position:relative;aspect-ratio:16/9;background:var(--ink);border:1px solid var(--line);overflow:hidden}
+.video video{width:100%;height:100%;display:block;background:#111}
+.video .soon{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--bg2);text-align:center;padding:24px}
+.video.missing .soon{display:flex}.video.missing video{display:none}
+.video .soon .play{width:64px;height:64px;border-radius:50%;border:1.5px dashed var(--accent);display:grid;place-items:center}
+.video .soon .play svg{width:22px;height:22px;fill:var(--accent);margin-left:4px}
+.video .soon p{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.video .soon span{font-size:15px;color:var(--muted)}
+.vcap{margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.04em}
+.feat{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.feat>div{display:grid;grid-template-columns:38px 1fr;gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
+.feat .n{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);padding-top:5px}
+.feat h3{font-family:var(--serif);font-weight:600;font-size:20px;line-height:1.25;color:var(--ink)}
+.feat p{font-size:15.5px;color:var(--muted);margin-top:4px}
+.prod-desc{font-family:var(--serif);font-size:19px;line-height:1.45;color:var(--ink);margin-bottom:22px}
+.prod-desc b{color:var(--accent)}
+.note{display:flex;margin-top:28px;border:1px solid var(--line);background:var(--bg2)}
+.note::before{content:"";width:5px;background:var(--accent);flex:none}
+.note p{padding:18px 24px;font-family:var(--serif);font-size:18px;color:var(--ink)}
+.note p b{color:var(--accent)}
+.first{margin-top:28px;max-width:900px;background:var(--accent);padding:22px 28px}
+.first p{font-family:var(--sans);font-size:19px;line-height:1.6;color:#F3F2F1}
+.first b{color:#fff}
+.together{padding:56px 0 80px;border-top:1px solid var(--line)}
+.together .call-l{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:24px}
+.together .call-l>div{padding:28px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg)}
+.together h3{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--ink);margin:8px 0 6px}
+.together p{font-size:15.5px;color:var(--muted)}
+.together .n{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent)}
+.sec-t{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3vw,36px);color:var(--ink)}
+
+/* ---------- tab 3: team ---------- */
+.t-intro{padding-top:64px;padding-bottom:40px}
+.team-sec{padding:0 0 56px}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);border-left:1px solid var(--line)}
+.team-grid>div{padding:32px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;gap:8px}
+.team-grid .mono{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--accent)}
+.team-grid .nm{font-family:var(--serif);font-weight:600;font-size:28px;line-height:1.2;color:var(--ink)}
+.team-grid .a{color:var(--ink);font-weight:600}
+.team-grid .b{color:var(--muted)}
+.team-grid.adv2>div{background:var(--bg2)}
+.team-grid.adv2>div.more{background:var(--bg);justify-content:center;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--text)}
+.team-grid.adv2 .nm{font-size:24px}
+.sec-l{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:14px}
+.sec-l .lab2{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.sec-l p{color:var(--muted)}
+.sec-l p b{color:var(--ink)}
+.connect{margin:16px 0 80px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;padding:36px 40px;background:var(--accent);color:#F3F2F1}
+.connect h3{font-family:var(--display);font-weight:300;font-size:clamp(26px,3vw,38px);line-height:1.15;color:#fff}
+.connect h3 i{color:#E9D9DA}
+.connect .btn{border-color:#F3F2F1}
+.connect .c-lab{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#E9D9DA;margin-bottom:6px}
+.connect .c-mail{display:inline-block;margin-top:8px;font-family:var(--sans);font-size:20px;color:#fff;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.connect .btn.primary{background:#F3F2F1;color:var(--accent)}
+.connect .btn.ghost{color:#F3F2F1}
+
+footer{border-top:1px solid var(--line);background:var(--bg)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;padding-top:28px;padding-bottom:28px}
+footer .links{display:flex;gap:22px;flex-wrap:wrap}
+footer a,footer small{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+@media (max-width:900px){
+  .prods,.together .call-l,.team-grid{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .wrap{padding:0 18px}
+  header.top .wrap{height:auto;flex-direction:column;align-items:stretch;gap:0;padding-top:12px}
+  .tabs{height:48px;justify-content:space-between}
+  .tabs a{padding:0 6px;font-size:11.5px;letter-spacing:.1em}
+  .tabs a .n{display:none}
+  .deck-head .hint{display:none}
+  .deck-wrap{padding-top:20px;padding-bottom:40px}
+  .stage{aspect-ratio:auto}
+  .ctrl button span.l{display:none}
+  .dots{gap:5px;flex-wrap:nowrap}.dots button{width:11px}
+  .connect{padding:28px 22px}
+}
+@media (prefers-reduced-motion:reduce){.panel{animation:none}.slide,.slide.on{transition:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lnmark" viewBox="-4 -4 108 108"><rect x="0" y="0" width="100" height="100" fill="#262425"/><polygon points="42,-2 102,42 57,102 -2,58" fill="#592A2E" stroke="#FDFCFB" stroke-width="1.8" stroke-linejoin="round"/><line x1="42" y1="-2" x2="57" y2="102" stroke="#FDFCFB" stroke-width="1.8"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#about"><span class="wm"><i>R</i>igoris<i>AI</i></span></a>
+    <nav class="tabs" role="tablist">
+      <a href="#about" role="tab" data-tab="about">Overview</a>
+      <a href="#products" role="tab" data-tab="products">Products</a>
+      <a href="#team" role="tab" data-tab="team">Team</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ================= TAB 1: ABOUT (deck) ================= -->
+<section class="panel" id="p-about" role="tabpanel">
+  <div class="wrap deck-wrap">
+    <div class="deck-head">
+      <div class="kicker">Who we are · What we do</div>
+      <div class="hint">← → to move between slides</div>
+    </div>
+
+    <div class="stage" id="stage" tabindex="0" aria-roledescription="slideshow" aria-label="RigorisAI introduction">
+
+      <!-- 1 cover -->
+      <article class="slide hero tone" aria-label="Slide 1 of 8">
+        <canvas class="contour" data-seed="23" aria-hidden="true"></canvas>
+        <div class="hero-top"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div></div>
+        <h1>Building <i>AI-for-Science Tools, Protocols,</i> and <i>Expert-Validated Data Flywheels</i></h1>
+        <div class="hero-bot"><div class="who">Guanting Chen</div><div class="hrole">Founder and Chief Scientist</div></div>
+      </article>
+
+      <!-- 2 problem -->
+      <article class="slide" aria-label="Slide 2 of 8">
+        <div class="s-bar"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><div class="tag">Building AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels</div></div>
+        <h2><span>The Problem:</span> AI-for-Science is Still Underdeveloped</h2>
+        <div class="sbody" style="justify-content:center">
+          <div class="cells c2">
+            <div><div class="cn">01</div><h3>For the research community</h3><p class="t">AI-generated research is <b>overwhelming</b> the research community, especially the <b>peer-review system</b></p></div>
+            <div><div class="cn">02</div><h3>For AI labs</h3><p class="t">Their approaches to scientific discovery <b>remain flawed and face opposition</b> from the research community</p></div>
+          </div>
+          <div class="call"><p>We need better <b>tools and more importantly, protocols,</b> in the area of AI-for-Science.</p></div>
+        </div>
+        <div class="s-foot"><span class="wm sf"><i>R</i>igoris<i>AI</i></span><span>02</span></div>
+      </article>
+
+      <!-- 3 solution -->
+      <article class="slide" aria-label="Slide 3 of 8">
+        <div class="s-bar"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><div class="tag">Building AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels</div></div>
+        <h2><span>Our Solution:</span> We Provide the Tools and Protocols</h2>
+        <p class="sub">Our familiarity with the research and academic community enables us to build the right tools and protocols.</p>
+        <div class="sbody">
+          <div class="cells c2">
+            <div><div class="cn">01</div><p class="big">We build AI-for-Science tools that <b>researchers actually need</b>.</p></div>
+            <div><div class="cn">02</div><p class="big">We collaborate with <b>academic journals</b> to establish rigorous AI-for-science research <b>protocols</b>.</p></div>
+          </div>
+          <p class="strong">Establishing rigorous scientific protocols is the hard part, and it is what makes us different.</p>
+          <div class="pull"><p>Scientific standards must be established with the <span>research community</span>, and the protocols cannot be developed by AI labs alone.</p></div>
+        </div>
+        <div class="s-foot"><span class="wm sf"><i>R</i>igoris<i>AI</i></span><span>03</span></div>
+      </article>
+
+      <!-- 4 product -->
+      <article class="slide" aria-label="Slide 4 of 8">
+        <div class="s-bar"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><div class="tag">Building AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels</div></div>
+        <h2><span>Our Product:</span> Lean-Nexus and ProReview</h2>
+        <p class="sub"><b style="color:var(--accent)">Lean-Nexus</b> and <b style="color:var(--accent)">ProReview</b> form an AI-for-Science platform that benefits both the <b>research community</b> and <b>AI labs</b></p>
+        <div class="sbody">
+          <div class="cells c3">
+            <div><div class="cn">01</div><h3>Tools built for AI-for-Science</h3><p class="t"><b style="color:var(--accent)">Lean-Nexus</b>: AI-based research verification tools that researchers and AI labs want to use.</p></div>
+            <div><div class="cn">02</div><h3>Protocols built for AI-for-Science</h3><p class="t"><b style="color:var(--accent)">ProReview</b>: A platform for domain-specific editors and reviewers to establish peer-review standards and AI-based research protocols.</p></div>
+            <div><div class="cn">03</div><h3>Domain-Specific Data and Workflows</h3><p class="t">Together, these tools can provide data and workflows for AI labs to train their next-generation AI models.</p></div>
+          </div>
+          <div class="call dark"><p><b>ProReview</b> is the <b>first product in the world</b> to collaborate with leading mathematical journals on AI-assisted peer-review and research verification.</p></div>
+        </div>
+        <div class="s-foot"><span class="wm sf"><i>R</i>igoris<i>AI</i></span><span>04</span></div>
+      </article>
+
+      <!-- 5 progress -->
+      <article class="slide" aria-label="Slide 5 of 8">
+        <div class="s-bar"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><div class="tag">Building AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels</div></div>
+        <h2>Progress and Next Milestones</h2>
+        <div class="sbody" style="gap:1.6cqw;margin-top:1.8cqw">
+          <div class="tl">
+            <div class="st"><div class="d">May 2026</div><div class="rail"><div class="dot"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></div><div class="ln"></div></div><img src="assets/m1-workshop.jpg" alt="GenAI for Operational Decision-making workshop, May 2026"><h3>Prototype Model</h3><p class="t">Presented at the “GenAI for Operational Decision-making” workshop at Columbia University</p></div>
+            <div class="st"><div class="d">July 2026</div><div class="rail"><div class="dot"><svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></svg></div><div class="ln"></div></div><img src="assets/m2-leannexus.jpg" alt="Lean-Nexus website: Research papers, rebuilt as verifiable mathematics using AI"><h3>Live platform</h3><p class="t">Lean-Nexus became operational.</p></div>
+            <div class="st"><div class="d">Aug 2026</div><div class="rail"><div class="dot"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M16 5.5a3 3 0 0 1 0 5.5M18 14c2 .6 3 2.5 3 5"/></svg></div><div class="ln"></div></div><img src="assets/m3-engagement.jpg" alt="INFORMS Annual Meeting: Lean Formalization Agents for Mathematics in Operations Research workshop"><h3>Engagement</h3><p class="t">ProReview became operational. Initiated discussions with journal editors and researchers.</p></div>
+            <div class="st"><div class="d">Oct 2026</div><div class="rail"><div class="dot"><svg viewBox="0 0 24 24"><path d="M4 5h6a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h6z"/></svg></div><div class="ln"></div></div><img src="assets/m4-pilot.jpg" alt="Journal reviewer list showing RigorisAI, AI-Assisted Review"><h3>Academic pilot</h3><p class="t">AI-assisted editorial review pilot with Mathematics of Operations Research.</p></div>
+            <div class="st"><div class="d">NEXT</div><div class="rail"><div class="dot"><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></div></div><div class="ph"><svg viewBox="0 0 120 70" aria-hidden="true"><circle cx="60" cy="35" r="16" fill="none" stroke="#592A2E" stroke-opacity=".35"/><circle cx="60" cy="35" r="28" fill="none" stroke="#592A2E" stroke-opacity=".25" stroke-dasharray="3 3"/><rect x="54" y="29" width="12" height="12" rx="1.5" fill="#592A2E"/><g fill="#FDFCFB" stroke="#592A2E" stroke-dasharray="2 2"><circle cx="36" cy="14" r="4"/><circle cx="90" cy="18" r="4"/><circle cx="100" cy="44" r="4"/><circle cx="24" cy="48" r="4"/><circle cx="70" cy="64" r="4"/></g><circle cx="42" cy="30" r="4" fill="#592A2E"/><circle cx="80" cy="42" r="4" fill="#592A2E"/></svg></div><h3>Next milestones</h3><p class="t">Expand journal partnerships and establish repeatable verification workflows.</p></div>
+          </div>
+          <div class="call sm"><p>Piloting AI-assisted peer review in collaboration with <b>INFORMS’ Mathematics of Operations Research</b>.<br>First AI-assisted peer-review pilot in the world, integrating <b>formal mathematical verification</b> with <b>established journal editorial workflows</b>.</p></div>
+        </div>
+        <div class="s-foot"><span class="wm sf"><i>R</i>igoris<i>AI</i></span><span>05</span></div>
+      </article>
+
+      <!-- 6 business -->
+      <article class="slide" aria-label="Slide 6 of 8">
+        <div class="s-bar"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><div class="tag">Building AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels</div></div>
+        <h2>Business Model</h2>
+        <div class="sbody" style="gap:1.5cqw;margin-top:1.8cqw">
+          <div class="rev">
+            <div><div><div class="who">Publishers &amp; Editorial Platforms:</div><div class="buys">They buy quality assurance</div></div><div><p><b>$50K–$250K+</b> annual licenses, based on submission volume and integrations.</p><p class="m"><b>Market:</b> 1,000+ target journals.</p></div></div>
+            <div><div><div class="who">Individual Researchers:</div><div class="buys">They buy productivity and verification</div></div><div><p><b>$30–$50</b> per manuscript, with subscription options.</p><p class="m"><b>Market:</b> 10M targeted researchers, averaging 5+ research outputs per year.</p></div></div>
+            <div><div><div class="who">Frontier AI Labs:</div><div class="buys">Expert-validated data, pipelines, and infrastructure</div></div><div><p><b>$100K+</b> pilot contracts, scaling to multimillion-dollar partnerships.</p><p class="m"><b>Market:</b> 30+ potential enterprise customers.</p></div></div>
+          </div>
+          <div class="lab">Go-to-market strategy</div>
+          <div class="gtm">
+            <div><span class="cn">01</span>Build verification protocols</div><span>→</span>
+            <div><span class="cn">02</span>Drive scientific adoption</div><span>→</span>
+            <div><span class="cn">03</span>Collaborate with frontier AI labs</div>
+          </div>
+        </div>
+        <div class="s-foot"><span class="wm sf"><i>R</i>igoris<i>AI</i></span><span>06</span></div>
+      </article>
+
+      <!-- 7 team -->
+      <article class="slide" aria-label="Slide 7 of 8">
+        <div class="s-bar"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><div class="tag">Building AI-for-Science Tools, Protocols, and Expert-Validated Data Flywheels</div></div>
+        <h2><span>Our Team:</span> Built by the Right Team for the Right Market</h2>
+        <div class="sbody" style="gap:1.1cqw;margin-top:1.8cqw">
+          <div style="display:flex;gap:1.6cqw;align-items:baseline;flex-wrap:wrap"><span class="lab">Team built for AI-for-Science</span><p class="t">We combine <b>scientific expertise</b>, <b>AI technology</b>, and <b>engineering experience</b></p></div>
+          <div class="cells c3" style="border-top:2px solid var(--ink)">
+            <div><div class="role">Founder and Chief Scientist</div><div class="person">Guanting Chen</div><p class="t" style="color:var(--text)">Stanford PhD in AI and Math</p><p class="t">UNC Professor in AI and Statistics</p></div>
+            <div><div class="role">Co-Founder and CEO</div><div class="person">Tianheng Chen</div><p class="t" style="color:var(--text)">Former Meta Engineering Leader</p><p class="t">Led engineering teams and product execution</p></div>
+            <div><div class="role">Founding Scientist/Engineer</div><div class="person">Yuhui Jin</div><p class="t" style="color:var(--text)">Caltech PhD in Applied Math</p><p class="t">Mathematical reasoning and verification</p></div>
+          </div>
+          <span class="lab" style="margin-top:.6cqw">Advisory board</span>
+          <div class="cells c3 adv" style="border-top:2px solid var(--ink)">
+            <div><div class="person" style="font-size:1.75cqw">Jose Blanchet</div><p class="t" style="color:var(--text)">Stanford University,</p><p class="t">Fellow of the Institute of Mathematical Statistics</p></div>
+            <div><div class="person" style="font-size:1.75cqw">Kay Giesecke</div><p class="t" style="color:var(--text)">Stanford University,</p><p class="t">Director of Stanford Advanced Financial Technologies Laboratory</p></div>
+            <div><p>Also advised by other leading researchers from <b>Stanford, Caltech, NYU,</b> and other top institutions</p></div>
+          </div>
+        </div>
+        <div class="s-foot"><span class="wm sf"><i>R</i>igoris<i>AI</i></span><span>07</span></div>
+      </article>
+
+      <!-- 8 thanks -->
+      <article class="slide hero thanks tone" aria-label="Slide 8 of 8">
+        <canvas class="contour" data-seed="41" aria-hidden="true"></canvas>
+        <div class="hero-top"><div class="lg"><span class="wm"><i>R</i>igoris<i>AI</i></span></div></div>
+        <h1>Thank you for your <i>time!</i></h1>
+        <div class="hero-bot" style="justify-content:space-between;align-items:center"><div class="who"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><a class="btn primary" href="#products" style="font-size:max(11px,.95cqw)">See the products →</a></div>
+      </article>
+    </div>
+
+    <div class="ctrl">
+      <button id="prev" aria-label="Previous slide">← <span class="l">Prev</span></button>
+      <div class="dots" id="dots"></div>
+      <span class="count" id="count">1 / 8</span>
+      <button id="next" aria-label="Next slide"><span class="l">Next</span> →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TAB 2: PRODUCTS ================= -->
+<section class="panel" id="p-products" role="tabpanel">
+  <div class="wrap p-intro">
+    <div class="kicker">Our products</div>
+    <h1>Two tools, one platform for rigorous AI-for-Science</h1>
+    <p class="lede"><b>Lean-Nexus</b> and <b>ProReview</b> form an AI-for-Science platform that benefits both the <b>research community</b> and <b>AI labs</b>.</p>
+    <div class="first"><p><b>ProReview</b> and <b>Lean-Nexus</b> are the <b>first products in the world</b> to collaborate with leading mathematical journals on AI-assisted peer review and research verification, now piloting with <b>INFORMS’ <i>Mathematics of Operations Research</i></b>.</p></div>
+  </div>
+
+  <div class="wrap prods">
+  <div class="prod" id="proreview">
+      <div class="prod-head">
+        <div>
+          <div class="prod-name"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="19" cy="19" r="13.5" fill="none" stroke="#1C1C1D" stroke-width="3"/><line x1="12.5" y1="16" x2="25.5" y2="16" stroke="#1C1C1D" stroke-width="3" stroke-linecap="round"/><line x1="12.5" y1="22.5" x2="21" y2="22.5" stroke="#1C1C1D" stroke-width="3" stroke-linecap="round"/><line x1="29" y1="29" x2="39" y2="39" stroke="#1C1C1D" stroke-width="3.4" stroke-linecap="round"/></svg><h2>ProReview</h2></div>
+          <div class="prod-tag">Bringing Rigor and Efficiency to Peer Review</div>
+        </div>
+        <div class="btns"><a class="btn primary" href="https://proreview.leannexus.ai" target="_blank" rel="noopener">Open ProReview ↗</a></div>
+      </div>
+      <div class="prod-grid">
+        <div>
+          <div class="video" data-video>
+            <video controls preload="metadata" playsinline poster="assets/proreview-tutorial.jpg">
+              <source src="assets/proreview-tutorial.mp4" type="video/mp4">
+            </video>
+            <div class="soon"><div class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div><p>Video coming soon</p></div>
+          </div>
+          <div class="vcap">Introduction to ProReview · 3:24</div>
+        </div>
+        <div>
+          <p class="prod-desc">A platform for domain-specific editors and reviewers to establish peer-review standards and AI-based research protocols. Make <b>faster, higher-quality editorial decisions</b> with:</p>
+          <div class="feat">
+            <div><span class="n">01</span><div><h3>AI-assisted screening</h3><p>Targeted evaluation of each manuscript’s positioning, novelty, contributions, technical merit, and correctness.</p></div></div>
+            <div><span class="n">02</span><div><h3>Customizable editorial workflows</h3><p>Compatible with existing peer-review platforms; adapts to each editor’s screening and report-drafting preferences.</p></div></div>
+            <div><span class="n">03</span><div><h3>Verifiable mathematical formalization</h3><p>Lean-based formalization gives referees evidence they can inspect, download, and verify independently.</p></div></div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="prod" id="leannexus">
+      <div class="prod-head">
+        <div>
+          <div class="prod-name"><svg viewBox="-4 -4 108 108" aria-hidden="true"><use href="#lnmark"/></svg><h2>Lean-Nexus</h2></div>
+          <div class="prod-tag">Research papers, rebuilt as verifiable mathematics</div>
+        </div>
+        <div class="btns"><a class="btn primary" href="https://atlas.leannexus.ai" target="_blank" rel="noopener">Open Lean-Nexus ↗</a></div>
+      </div>
+      <div class="prod-grid">
+        <div>
+          <div class="video" data-video>
+            <video controls preload="metadata" playsinline poster="assets/lean-nexus-intro.jpg">
+              <source src="assets/lean-nexus-intro.mp4" type="video/mp4">
+            </video>
+            <div class="soon"><div class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div><p>Intro video coming soon</p><span>Meanwhile, explore Lean-Nexus at <a href="https://atlas.leannexus.ai" target="_blank" rel="noopener">atlas.leannexus.ai</a></span></div>
+          </div>
+          <div class="vcap">Introduction to Lean-Nexus · 2:36</div>
+        </div>
+        <div>
+          <p class="prod-desc">AI-based mathematical formalization and verification tools. Lean-Nexus <b>formalizes research mathematics into machine-checked, Lean-based proofs</b>.</p>
+          <div class="feat">
+            <div><span class="n">01</span><div><h3>Verifies every reasoning step</h3><p>Each step of an argument is checked by the Lean proof assistant, not just read.</p></div></div>
+            <div><span class="n">02</span><div><h3>Re-derives every computation</h3><p>Calculations in the paper are recomputed rather than taken on trust.</p></div></div>
+            <div><span class="n">03</span><div><h3>Localizes the exact line where an argument breaks</h3><p>When something fails, you see precisely where, so authors and referees can act on it.</p></div></div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+
+  <div class="together">
+    <div class="wrap">
+      <div class="kicker">Together</div>
+      <h2 class="sec-t" style="margin-top:10px">Tools, protocols, and data for AI-for-Science</h2>
+      <div class="call-l">
+        <div><span class="n">01</span><h3>Tools</h3><p><b style="color:var(--accent)">Lean-Nexus</b>: AI-based research verification tools that researchers and AI labs want to use.</p></div>
+        <div><span class="n">02</span><h3>Protocols</h3><p><b style="color:var(--accent)">ProReview</b>: a platform for editors and reviewers to establish peer-review standards and AI-based research protocols.</p></div>
+        <div><span class="n">03</span><h3>Data and workflows</h3><p>Together, these tools can provide data and workflows for AI labs to train their next-generation AI models.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TAB 3: TEAM ================= -->
+<section class="panel" id="p-team" role="tabpanel">
+  <div class="wrap t-intro">
+    <div class="kicker">Our team</div>
+    <h1>Built by the right team for the right market</h1>
+    <p class="lede">We combine <b>scientific expertise</b>, <b>AI technology</b>, and <b>engineering experience</b>.</p>
+  </div>
+  <div class="wrap team-sec">
+    <div class="sec-l"><span class="lab2">Founding team</span></div>
+    <div class="team-grid">
+      <div><span class="mono">Founder and Chief Scientist</span><span class="nm">Guanting Chen</span><span class="a">Stanford PhD in AI and Math</span><span class="b">UNC Professor in AI and Statistics</span></div>
+      <div><span class="mono">Co-Founder and CEO</span><span class="nm">Tianheng Chen</span><span class="a">Former Meta Engineering Leader</span><span class="b">Led engineering teams and product execution</span></div>
+      <div><span class="mono">Founding Scientist/Engineer</span><span class="nm">Yuhui Jin</span><span class="a">Caltech PhD in Applied Math</span><span class="b">Mathematical reasoning and verification</span></div>
+    </div>
+  </div>
+  <div class="wrap team-sec">
+    <div class="sec-l"><span class="lab2">Advisory board</span></div>
+    <div class="team-grid adv2">
+      <div><span class="nm">Jose Blanchet</span><span class="a">Stanford University</span><span class="b">Fellow of the Institute of Mathematical Statistics</span></div>
+      <div><span class="nm">Kay Giesecke</span><span class="a">Stanford University</span><span class="b">Director of Stanford Advanced Financial Technologies Laboratory</span></div>
+      <div class="more"><p>Also advised by other leading researchers from <b>Stanford, Caltech, NYU</b>, and other top institutions.</p></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="connect">
+      <div>
+        <div class="c-lab">Contact</div>
+        <h3>Get in touch</h3>
+        <a class="c-mail" href="mailto:gtchen430@gmail.com">gtchen430@gmail.com</a>
+      </div>
+      <div class="btns"><a class="btn primary" href="mailto:gtchen430@gmail.com">Email us</a><a class="btn ghost" href="#products">Explore products</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#about" style="font-size:20px"><span class="wm"><i>R</i>igoris<i>AI</i></span></a>
+    <div class="links">
+      <a href="https://proreview.leannexus.ai" target="_blank" rel="noopener">ProReview ↗</a>
+      <a href="https://atlas.leannexus.ai" target="_blank" rel="noopener">Lean-Nexus ↗</a>
+    </div>
+    <small>© <span id="yr">2026</span> RigorisAI</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+document.getElementById('yr').textContent=new Date().getFullYear();
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- tabs ---------- */
+const TABS=['about','products','team'];
+const anchorTab={proreview:'products',leannexus:'products'};
+function route(){
+  const h=(location.hash||'#about').slice(1);
+  const tab=TABS.includes(h)?h:(anchorTab[h]||'about');
+  TABS.forEach(t=>{
+    document.getElementById('p-'+t).classList.toggle('on',t===tab);
+    document.querySelector('[data-tab="'+t+'"]').setAttribute('aria-selected',t===tab);
+  });
+  if(anchorTab[h]){requestAnimationFrame(()=>document.getElementById(h).scrollIntoView({behavior:'smooth'}))}
+  else window.scrollTo(0,0);
+  deck.active=(tab==='about');
+  if(deck.active)deck.kick();
+  if(tab!=='products')document.querySelectorAll('video').forEach(v=>v.pause());
+}
+addEventListener('hashchange',route);
+
+/* ---------- videos: show "coming soon" if the file isn't there ---------- */
+document.querySelectorAll('[data-video]').forEach(box=>{
+  const v=box.querySelector('video'),s=v.querySelector('source');
+  const miss=()=>box.classList.add('missing');
+  s.addEventListener('error',miss);v.addEventListener('error',miss);
+  v.addEventListener('loadedmetadata',()=>box.classList.remove('missing'));
+  const chk=()=>{if(v.networkState===3||v.error)miss()};setTimeout(chk,1200);setTimeout(chk,4000);
+});
+
+/* ---------- deck ---------- */
+const stage=document.getElementById('stage'),slides=[...stage.querySelectorAll('.slide')];
+const dots=document.getElementById('dots'),count=document.getElementById('count');
+const prev=document.getElementById('prev'),next=document.getElementById('next');
+let cur=0;
+slides.forEach((s,i)=>{const b=document.createElement('button');b.setAttribute('aria-label','Go to slide '+(i+1));b.onclick=()=>go(i);dots.appendChild(b)});
+function go(i){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>{s.classList.toggle('on',k===cur);s.setAttribute('aria-hidden',k!==cur)});
+  [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));
+  count.textContent=(cur+1)+' / '+slides.length;
+  prev.disabled=cur===0;next.disabled=cur===slides.length-1;
+  deck.kick();
+}
+prev.onclick=()=>go(cur-1);next.onclick=()=>go(cur+1);
+addEventListener('keydown',e=>{
+  if(!deck.active||e.target.closest('input,textarea,video'))return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){go(cur+1);e.preventDefault()}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){go(cur-1);e.preventDefault()}
+});
+let sx=null;
+stage.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)go(cur+(dx<0?1:-1));sx=null});
+
+/* ---------- contour backdrop (cover + thank-you) ---------- */
+function R(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function Contour(c,seed){
+  const x=c.getContext('2d');let w,h,cell,cols,rows,g,B=[],lo0=0,hi0=1,first=true;
+  function fit(){const d=Math.min(2,devicePixelRatio||1);w=c.clientWidth;h=c.clientHeight;if(!w||!h)return false;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0);
+    cell=Math.max(9,Math.round(w/76));cols=Math.ceil(w/cell)+1;rows=Math.ceil(h/cell)+1;g=new Float32Array(cols*rows);
+    const r=R(seed);B=[];for(let i=0;i<7;i++)B.push({x:0.22+r()*0.82,y:r(),a:(r()<0.3?-1:1)*(0.55+r()*0.85),s:0.10+r()*0.20,vx:(r()-.5)*0.035,vy:(r()-.5)*0.03,ph:r()*6.28});first=true;return true}
+  const pos=(b,T)=>[(b.x+Math.sin(T*b.vx*3.4+b.ph)*0.16)*w,(b.y+Math.cos(T*b.vy*3.4+b.ph)*0.14)*h];
+  function field(T){const P=B.map(b=>{const p=pos(b,T);return{x:p[0],y:p[1],a:b.a,s2:Math.pow(b.s*Math.min(w,h),2)}});
+    const mx=w*(0.72+0.14*Math.cos(T*0.11)),my=h*(0.5+0.24*Math.sin(T*0.13)),ms2=Math.pow(Math.min(w,h)*0.13,2);let k=0,lo=1e9,hi=-1e9;
+    for(let j=0;j<rows;j++){const y=j*cell;for(let i=0;i<cols;i++,k++){const X=i*cell;let v=0;for(const b of P){const dx=X-b.x,dy=y-b.y;v+=b.a/(1+(dx*dx+dy*dy)/b.s2)}
+      const dx=X-mx,dy=y-my;v+=0.85/(1+(dx*dx+dy*dy)/ms2);g[k]=v;if(v<lo)lo=v;if(v>hi)hi=v}}
+    const sp=Math.max(hi-lo,0.001),tl=lo+sp*0.06,th=hi-sp*0.10;if(first){lo0=tl;hi0=th;first=false}else{lo0+=(tl-lo0)*0.08;hi0+=(th-hi0)*0.08}}
+  function iso(L){for(let j=0;j<rows-1;j++){for(let i=0;i<cols-1;i++){const k=j*cols+i;const a=g[k],b=g[k+1],cc=g[k+cols+1],d=g[k+cols];let id=0;if(a>L)id|=8;if(b>L)id|=4;if(cc>L)id|=2;if(d>L)id|=1;
+    if(id===0||id===15)continue;const x0=i*cell,y0=j*cell,x1=x0+cell,y1=y0+cell;
+    const T_=()=>[x0+((L-a)/(b-a))*cell,y0],Rg=()=>[x1,y0+((L-b)/(cc-b))*cell],B_=()=>[x0+((L-d)/(cc-d))*cell,y1],Lf=()=>[x0,y0+((L-a)/(d-a))*cell];let s;
+    switch(id){case 1:case 14:s=[Lf(),B_()];break;case 2:case 13:s=[B_(),Rg()];break;case 3:case 12:s=[Lf(),Rg()];break;case 4:case 11:s=[T_(),Rg()];break;case 6:case 9:s=[T_(),B_()];break;case 7:case 8:s=[Lf(),T_()];break;
+      case 5:{const p=Lf(),q=T_(),u=B_(),v=Rg();x.moveTo(p[0],p[1]);x.lineTo(q[0],q[1]);x.moveTo(u[0],u[1]);x.lineTo(v[0],v[1]);continue}
+      case 10:{const p=Lf(),q=B_(),u=T_(),v=Rg();x.moveTo(p[0],p[1]);x.lineTo(q[0],q[1]);x.moveTo(u[0],u[1]);x.lineTo(v[0],v[1]);continue}}
+    x.moveTo(s[0][0],s[0][1]);x.lineTo(s[1][0],s[1][1])}}}
+  function draw(now){const T=now/1000+(seed===23?8:20);x.clearRect(0,0,w,h);field(T);const hot=(T*0.34)%11,lw=Math.max(1,w/1400);x.lineCap='round';x.lineJoin='round';
+    for(let n=0;n<11;n++){const L=lo0+(n/10)*(hi0-lo0),dd=Math.abs(n-hot),near=Math.max(0,1-dd/1.35),on=near>0.35;x.beginPath();iso(L);x.strokeStyle=on?'#592A2E':'#8F898A';x.lineWidth=on?(1.2+near*0.9)*lw:lw;x.globalAlpha=on?0.45+near*0.5:0.32;x.stroke()}
+    x.globalAlpha=1;const gr=x.createRadialGradient(w*0.3,h*0.5,0,w*0.3,h*0.5,w*0.62);gr.addColorStop(0,'rgba(243,242,241,0.94)');gr.addColorStop(0.45,'rgba(243,242,241,0.66)');gr.addColorStop(0.82,'rgba(243,242,241,0)');x.fillStyle=gr;x.fillRect(0,0,w,h)}
+  return{fit,draw,el:c};
+}
+const contours=[...document.querySelectorAll('canvas.contour')].map(c=>Contour(c,+c.dataset.seed));
+const deck={active:false,raf:0,kick(){
+  cancelAnimationFrame(this.raf);
+  const s=slides[cur],ct=contours.find(k=>s.contains(k.el));
+  if(!this.active||!ct)return;
+  if(!ct.fit())return;
+  if(still){ct.draw(0);return}
+  const loop=t=>{ct.draw(t);this.raf=requestAnimationFrame(loop)};this.raf=requestAnimationFrame(loop);
+}};
+addEventListener('resize',()=>deck.kick());
+document.querySelectorAll('[data-scroll]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});history.replaceState(null,'','#products')}));
+
+go(0);route();
+})();
+</script>
+</body>
+</html>
