@@ -48,7 +48,22 @@ main{flex:1}
 .deck-wrap{padding-top:36px;padding-bottom:56px}
 .deck-head{max-width:calc((100vh - 230px) * 16 / 9);min-width:min(100%,760px);margin-left:auto;margin-right:auto;display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}
 .kicker{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
-.deck-head .hint{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.06em}
+.deck-head .hint{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--accent);letter-spacing:.04em}
+.hint-mob{display:none}
+.progress{position:absolute;left:0;right:0;top:0;height:4px;background:rgba(203,198,198,.45);z-index:6}
+.progress span{display:block;height:100%;width:12.5%;background:var(--accent);transition:width .35s ease}
+.arrow{all:unset;box-sizing:border-box;position:absolute;top:50%;transform:translateY(-50%);z-index:6;height:48px;min-width:48px;padding:0 14px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;cursor:pointer;background:rgba(253,252,251,.94);border:1px solid var(--line);box-shadow:0 8px 24px -10px rgba(28,28,29,.35);color:var(--accent);transition:background .2s,color .2s,opacity .2s}
+.arrow svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.arrow.left{left:12px;padding:0}.arrow.right{right:12px}
+.arrow .al{display:none;font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.arrow:hover{background:var(--accent);color:#FBF7F6;border-color:var(--accent)}
+.arrow:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.arrow[disabled]{opacity:0;pointer-events:none}
+.stage.start .arrow.right{background:var(--accent);color:#FBF7F6;border-color:var(--accent);padding:0 20px 0 24px;animation:nudge 1.6s ease-in-out infinite}
+.stage.start .arrow.right .al{display:inline}
+@keyframes nudge{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(6px)}}
+.ctrl button.go{background:var(--accent);border-color:var(--accent);color:#FBF7F6}
+.ctrl button.go:hover{color:#fff;filter:brightness(1.15)}
 .stage{position:relative;max-width:calc((100vh - 230px) * 16 / 9);min-width:min(100%,760px);margin:0 auto;container-type:inline-size;aspect-ratio:16/9;background:var(--bg);border:1px solid var(--line);box-shadow:0 30px 60px -40px rgba(28,28,29,.35);overflow:hidden;touch-action:pan-y}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;padding:8.4cqw 6.6cqw 5.6cqw;background:var(--bg);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s .45s}
 .slide.on{opacity:1;visibility:visible;transition:opacity .45s ease}
@@ -269,14 +284,16 @@ footer a:hover{color:var(--accent)}
   .tabs{height:48px;justify-content:space-between}
   .tabs a{padding:0 6px;font-size:11.5px;letter-spacing:.1em}
   .tabs a .n{display:none}
-  .deck-head .hint{display:none}
+  .hint-desk{display:none}.hint-mob{display:inline}
+  .deck-head{flex-direction:column;align-items:flex-start;gap:6px}
+  .arrow{display:none}
   .deck-wrap{padding-top:20px;padding-bottom:40px}
   .stage{aspect-ratio:auto}
   .ctrl button span.l{display:none}
   .dots{gap:5px;flex-wrap:nowrap}.dots button{width:11px}
   .connect{padding:28px 22px}
 }
-@media (prefers-reduced-motion:reduce){.panel{animation:none}.slide,.slide.on{transition:none}}
+@media (prefers-reduced-motion:reduce){.stage.start .arrow.right{animation:none}.panel{animation:none}.slide,.slide.on{transition:none}}
 </style>
 </head>
 <body>
@@ -301,8 +318,8 @@ footer a:hover{color:var(--accent)}
 <section class="panel" id="p-about" role="tabpanel">
   <div class="wrap deck-wrap">
     <div class="deck-head">
-      <div class="kicker">Who we are · What we do</div>
-      <div class="hint">← → to move between slides</div>
+      <div class="kicker">Overview · 8 slides</div>
+      <div class="hint"><span class="hint-desk">Click the arrows or use the ← → keys to turn pages</span><span class="hint-mob">Swipe or tap → to turn pages</span></div>
     </div>
 
     <div class="stage" id="stage" tabindex="0" aria-roledescription="slideshow" aria-label="RigorisAI introduction">
@@ -426,13 +443,16 @@ footer a:hover{color:var(--accent)}
         <h1>Thank you for your <i>time!</i></h1>
         <div class="hero-bot" style="justify-content:space-between;align-items:center"><div class="who"><span class="wm"><i>R</i>igoris<i>AI</i></span></div><a class="btn primary" href="#products" style="font-size:max(11px,.95cqw)">See the products →</a></div>
       </article>
+      <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+      <button class="arrow left" id="aprev" aria-label="Previous slide"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="arrow right" id="anext" aria-label="Next slide"><span class="al">Next</span><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
 
     <div class="ctrl">
       <button id="prev" aria-label="Previous slide">← <span class="l">Prev</span></button>
       <div class="dots" id="dots"></div>
       <span class="count" id="count">1 / 8</span>
-      <button id="next" aria-label="Next slide"><span class="l">Next</span> →</button>
+      <button id="next" class="go" aria-label="Next slide"><span class="l">Next slide</span> →</button>
     </div>
   </div>
 </section>
@@ -610,9 +630,13 @@ function go(i){
   [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur));
   count.textContent=(cur+1)+' / '+slides.length;
   prev.disabled=cur===0;next.disabled=cur===slides.length-1;
+  aprev.disabled=prev.disabled;anext.disabled=next.disabled;
+  document.getElementById('bar').style.width=((cur+1)/slides.length*100)+'%';
+  stage.classList.toggle('start',cur===0);
   deck.kick();
 }
-prev.onclick=()=>go(cur-1);next.onclick=()=>go(cur+1);
+const aprev=document.getElementById('aprev'),anext=document.getElementById('anext');
+prev.onclick=aprev.onclick=()=>go(cur-1);next.onclick=anext.onclick=()=>go(cur+1);
 addEventListener('keydown',e=>{
   if(!deck.active||e.target.closest('input,textarea,video'))return;
   if(e.key==='ArrowRight'||e.key==='PageDown'){go(cur+1);e.preventDefault()}
